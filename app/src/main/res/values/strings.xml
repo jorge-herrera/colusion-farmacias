@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Colusion Farmacias</string>
+    <string name="title_activity_result_search">ResultSearchActivity</string>
 </resources>
