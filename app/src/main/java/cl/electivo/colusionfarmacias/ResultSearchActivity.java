@@ -1,11 +1,9 @@
 package cl.electivo.colusionfarmacias;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.content.Intent;
+import android.widget.Toast;
 
 public class ResultSearchActivity extends AppCompatActivity {
 
@@ -13,7 +11,13 @@ public class ResultSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_search);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Intent intent = getIntent();
+        String medicamento = intent.getStringExtra("medicamento");
+
+        Toast.makeText(ResultSearchActivity.this,"Termino buscado: " + medicamento, Toast.LENGTH_SHORT).show();
+
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -23,7 +27,7 @@ public class ResultSearchActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
     }
 
 }
