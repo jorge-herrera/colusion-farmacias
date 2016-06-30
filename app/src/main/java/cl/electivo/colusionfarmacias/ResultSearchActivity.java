@@ -27,6 +27,7 @@ public class ResultSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_search);
 
+
         titulo = (TextView) findViewById(R.id.tituloView);
         lista  = (ListView) findViewById(R.id.listFarmaciasView);
 
@@ -36,38 +37,13 @@ public class ResultSearchActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String medicamento = intent.getStringExtra("medicamento");
 
-        titulo.setText(medicamento.toString());
+        setTitle(medicamento);
+
 
         cursor = sdbh.findFarmaciasByMedicamento(db, medicamento);
 
         DBCursorAdapter adapter = new DBCursorAdapter(getApplicationContext(),cursor,0);
         lista.setAdapter(adapter);
-
-
-        /*if (cursor.moveToFirst()) {
-
-            do {
-
-
-
-            } while (cursor.moveToNext());
-        }*/
-
-
-
-        //Toast.makeText(ResultSearchActivity.this,"Termino buscado: " + medicamento, Toast.LENGTH_SHORT).show();
-
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
     }
 
     class DBCursorAdapter extends android.widget.CursorAdapter{
@@ -91,8 +67,11 @@ public class ResultSearchActivity extends AppCompatActivity {
             Float  precio   = cursor.getFloat(cursor.getColumnIndexOrThrow("precio"));
 
             tvFarmacia.setText(farmacia);
-            tvPrecio.setText(String.valueOf(precio));
+
+            String sprecio = "$ "+String.valueOf(precio);
+            tvPrecio.setText(sprecio);
         }
     }
+
 
 }
