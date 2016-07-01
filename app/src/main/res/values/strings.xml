@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Colusion Farmacias</string>
+    <string name="app_name">Farmacia Transparente</string>
     <string name="title_activity_result_search">ResultSearchActivity</string>
     <string name="btn_buscar">Buscar</string>
     <string name="lbl_medicamento">Buscar Medicamento</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

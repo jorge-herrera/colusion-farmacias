@@ -30,17 +30,16 @@ public class ResultSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_search);
 
+        Intent intent = getIntent();
+        String medicamento = intent.getStringExtra("medicamento");
+
+        setTitle(medicamento);
 
         titulo = (TextView) findViewById(R.id.tituloView);
         lista  = (ListView) findViewById(R.id.listFarmaciasView);
 
         sdbh = new SearchDBHelper(getApplicationContext());
         db   = sdbh.getReadableDatabase();
-
-        Intent intent = getIntent();
-        String medicamento = intent.getStringExtra("medicamento");
-
-        setTitle(medicamento);
 
         cursor = sdbh.findFarmaciasByMedicamento(db, medicamento);
 
@@ -50,17 +49,11 @@ public class ResultSearchActivity extends AppCompatActivity {
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long idFarmacia) {
 
-                //Object o = lista.getItemAtPosition(position);
-
-                Context context = getApplicationContext();
-                CharSequence text = "id: "+ String.valueOf(arg3);
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-
+                Intent intent = new Intent(ResultSearchActivity.this,DetailDrugStore.class);
+                intent.putExtra("farmacia", String.valueOf(idFarmacia));
+                startActivity(intent);
             }
         });
     }
@@ -91,9 +84,6 @@ public class ResultSearchActivity extends AppCompatActivity {
 
             String sprecio = "$ "+String.valueOf(precio);
             tvPrecio.setText(sprecio);
-
-
-
         }
     }
 }
