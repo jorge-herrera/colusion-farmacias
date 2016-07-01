@@ -26,12 +26,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
-
-    /*public void onClickBuscar (){
-
-        Intent intent = new Intent(MainActivity.this,ResultSearchActivity.class);
-        startActivity(intent);
-    }*/
 }

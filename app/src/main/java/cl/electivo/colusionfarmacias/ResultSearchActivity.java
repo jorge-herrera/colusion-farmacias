@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
 
 
 public class ResultSearchActivity extends AppCompatActivity {
@@ -39,11 +42,27 @@ public class ResultSearchActivity extends AppCompatActivity {
 
         setTitle(medicamento);
 
-
         cursor = sdbh.findFarmaciasByMedicamento(db, medicamento);
 
         DBCursorAdapter adapter = new DBCursorAdapter(getApplicationContext(),cursor,0);
         lista.setAdapter(adapter);
+
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+
+                //Object o = lista.getItemAtPosition(position);
+
+                Context context = getApplicationContext();
+                CharSequence text = "id: "+ String.valueOf(arg3);
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+            }
+        });
     }
 
     class DBCursorAdapter extends android.widget.CursorAdapter{
@@ -62,16 +81,19 @@ public class ResultSearchActivity extends AppCompatActivity {
         public void bindView(View view, Context context, Cursor cursor) {
             TextView tvFarmacia = (TextView) view.findViewById(R.id.tvNFarmacia);
             TextView tvPrecio   = (TextView) view.findViewById(R.id.tvPrecio);
+            //Button   btnVer     = (Button) view.findViewById(R.id.btnVer);
 
-            String farmacia = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
-            Float  precio   = cursor.getFloat(cursor.getColumnIndexOrThrow("precio"));
+            String  farmacia = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
+            Float   precio   = cursor.getFloat(cursor.getColumnIndexOrThrow("precio"));
+            //Integer id       = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
 
             tvFarmacia.setText(farmacia);
 
             String sprecio = "$ "+String.valueOf(precio);
             tvPrecio.setText(sprecio);
+
+
+
         }
     }
-
-
 }

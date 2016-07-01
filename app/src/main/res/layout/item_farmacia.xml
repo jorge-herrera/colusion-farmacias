@@ -26,14 +26,26 @@
         android:textAppearance="?android:attr/textAppearance"
         android:layout_toRightOf="@+id/tvNFarmacia"/>
 
-    <Button
+    <TextView
+        android:id="@+id/tvVer"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceButton"
+        android:text="Ver"
+        android:textColor="#ffffff"
+        android:background="#000000"/>
+
+    <!--Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="Ver"
-        android:id="@+id/button"
+        android:id="@+id/btnVer"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"/-->
 
 
 </RelativeLayout>

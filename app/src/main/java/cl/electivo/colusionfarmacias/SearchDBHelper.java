@@ -11,7 +11,7 @@ import android.util.Log;
  */
 public class SearchDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
     public static final String DATABASE_NAME = "precios.db";
     private static final String TAG = "SQLiteOpenHelper";
 
@@ -20,8 +20,11 @@ public class SearchDBHelper extends SQLiteOpenHelper {
             "CREATE TABLE farmacia (" +
             "	id	INTEGER PRIMARY KEY AUTOINCREMENT," +
             "	nombre	TEXT," +
+            "	direccion	TEXT," +
+            "	telefono	TEXT," +
             "	x	TEXT," +
             "	y	TEXT" +
+            "	placeid	TEXT" +
             ");";
 
     private static final String SQL_CREATE_MEDICAMENTO =
@@ -51,11 +54,11 @@ public class SearchDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db)
     {
         db.execSQL(SQL_CREATE_FARMACIA);
-        db.execSQL("INSERT INTO farmacia(nombre, x, y) VALUES('farmacia 1', '0', '0');");
-        db.execSQL("INSERT INTO farmacia(nombre, x, y) VALUES('farmacia 2', '0', '0');");
-        db.execSQL("INSERT INTO farmacia(nombre, x, y) VALUES('farmacia 3', '0', '0');");
-        db.execSQL("INSERT INTO farmacia(nombre, x, y) VALUES('farmacia 4', '0', '0');");
-        db.execSQL("INSERT INTO farmacia(nombre, x, y) VALUES('farmacia 5', '0', '0');");
+        db.execSQL("INSERT INTO farmacia(nombre, x, y) VALUES('Cruz Verde', 'Av. Libertador Bernardo O Higgins 3479', '80080 28 00', '-33.4518445', '-70.6827685', 'EmBBdiBMaWJlcnRhZG9yIEJlcm5hcmRvIE8nSGlnZ2lucyAzNDc5LCBTYW50aWFnbywgRXN0YWNpw7NuIENlbnRyYWwsIFJlZ2nDs24gTWV0cm9wb2xpdGFuYSwgQ2hpbGU');");
+        db.execSQL("INSERT INTO farmacia(nombre, x, y) VALUES('Belgo Chilena', 'Av. Libertador Bernardo O Higgins 3700', '2776 5182', '-33.453406', '-70.6878551', 'EmBBdiBMaWJlcnRhZG9yIEJlcm5hcmRvIE8nSGlnZ2lucyAzNzAwLCBTYW50aWFnbywgRXN0YWNpw7NuIENlbnRyYWwsIFJlZ2nDs24gTWV0cm9wb2xpdGFuYSwgQ2hpbGU');");
+        db.execSQL("INSERT INTO farmacia(nombre, x, y) VALUES('Salcobrand', 'Av. Libertador Bernardo O Higgins 3770', '2422 7100', '-33.4533806', '-70.6871762', 'ChIJwwVC3_XEYpYRk7qRjWRQWSg');");
+        db.execSQL("INSERT INTO farmacia(nombre, x, y) VALUES('Dr. Simi', 'Av. Libertador Bernardo O Higgins 4102', '2361 0321', '-33.4542976', '-70.6921995', 'EmBBdiBMaWJlcnRhZG9yIEJlcm5hcmRvIE8nSGlnZ2lucyA0MTAyLCBTYW50aWFnbywgRXN0YWNpw7NuIENlbnRyYWwsIFJlZ2nDs24gTWV0cm9wb2xpdGFuYSwgQ2hpbGU');");
+        db.execSQL("INSERT INTO farmacia(nombre, x, y) VALUES('Ahumada', 'Av. Libertador Bernardo O Higgins 4103', '2631 3815', '-33.4540477', '-70.6923085', 'EmBBdiBMaWJlcnRhZG9yIEJlcm5hcmRvIE8nSGlnZ2lucyA0MTAzLCBTYW50aWFnbywgRXN0YWNpw7NuIENlbnRyYWwsIFJlZ2nDs24gTWV0cm9wb2xpdGFuYSwgQ2hpbGU');");
 
         db.execSQL(SQL_CREATE_MEDICAMENTO);
         db.execSQL("INSERT INTO medicamento(nombre) VALUES('paracetamol');");
@@ -95,9 +98,32 @@ public class SearchDBHelper extends SQLiteOpenHelper {
     public Cursor findFarmaciasByMedicamento(SQLiteDatabase db, String medicamento)
     {
         Cursor cursor;
-
         cursor = db.rawQuery("select f.id as _id, f.nombre, p.precio from farmacia as f join precio as p on f.id = p.id_farmacia join medicamento as m on m.id = p.id_medicamento  where m.nombre = ? ORDER BY p.precio ASC;", new String[] {medicamento});
-
         return cursor;
     }
+
+    public Farmacia findFarmaciaById(SQLiteDatabase db, int id)
+    {
+        Cursor cursor;
+        cursor = db.rawQuery("select id, nombre, direccion, telefono, x, y, placeid from farmacia where id = ?;", new String[] {String.valueOf(id)});
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Farmacia f = new Farmacia();
+        f.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
+        f.setNombre(cursor.getString(cursor.getColumnIndexOrThrow("nombre")));
+        f.setDireccion(cursor.getString(cursor.getColumnIndexOrThrow("direccion")));
+        f.setTelefono(cursor.getString(cursor.getColumnIndexOrThrow("telefono")));
+        f.setX(cursor.getLong(cursor.getColumnIndexOrThrow("x")));
+        f.setY(cursor.getLong(cursor.getColumnIndexOrThrow("y")));
+        f.setPlaceid(cursor.getString(cursor.getColumnIndexOrThrow("placeid")));
+
+
+        cursor.close();
+
+        return f;
+    }
 }
+
+// AIzaSyBy6BcevJtkDvBC8SJbuiMg1r4ee7M3Qv8
