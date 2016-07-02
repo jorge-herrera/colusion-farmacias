@@ -11,7 +11,7 @@ import android.util.Log;
  */
 public class SearchDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 8;
+    public static final int DATABASE_VERSION = 11;
     public static final String DATABASE_NAME = "precios.db";
     private static final String TAG = "SQLiteOpenHelper";
 
@@ -41,9 +41,13 @@ public class SearchDBHelper extends SQLiteOpenHelper {
             "	PRIMARY KEY(id_medicamento,id_farmacia)" +
             ");";
 
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS farmacia;" +
-            "DROP TABLE IF EXISTS medicamento;" +
+    private static final String SQL_DELETE_FARMACIA =
+            "DROP TABLE IF EXISTS farmacia;";
+
+    private static final String SQL_DELETE_MEDICAMENTO =
+            "DROP TABLE IF EXISTS medicamento;";
+
+    private static final String SQL_DELETE_PRECIO =
             "DROP TABLE IF EXISTS precio;";
 
 
@@ -64,8 +68,8 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO medicamento(nombre) VALUES('paracetamol');");
         db.execSQL("INSERT INTO medicamento(nombre) VALUES('ibuprofeno');");
         db.execSQL("INSERT INTO medicamento(nombre) VALUES('diclofenaco');");
-        db.execSQL("INSERT INTO medicamento(nombre) VALUES('nitrendipino');");
-        db.execSQL("INSERT INTO medicamento(nombre) VALUES('metformina');");
+        db.execSQL("INSERT INTO medicamento(nombre) VALUES('tapsin');");
+        db.execSQL("INSERT INTO medicamento(nombre) VALUES('nastizol');");
 
         db.execSQL(SQL_CREATE_PRECIO);
         db.execSQL("INSERT INTO precio(id_medicamento, id_farmacia, precio) VALUES(1, 1, 1000);");
@@ -87,7 +91,9 @@ public class SearchDBHelper extends SQLiteOpenHelper {
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL(SQL_DELETE_FARMACIA);
+        db.execSQL(SQL_DELETE_MEDICAMENTO);
+        db.execSQL(SQL_DELETE_PRECIO);
         onCreate(db);
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -115,10 +121,9 @@ public class SearchDBHelper extends SQLiteOpenHelper {
         f.setNombre(cursor.getString(cursor.getColumnIndexOrThrow("nombre")));
         f.setDireccion(cursor.getString(cursor.getColumnIndexOrThrow("direccion")));
         f.setTelefono(cursor.getString(cursor.getColumnIndexOrThrow("telefono")));
-        f.setX(cursor.getLong(cursor.getColumnIndexOrThrow("x")));
-        f.setY(cursor.getLong(cursor.getColumnIndexOrThrow("y")));
+        f.setX(cursor.getString(cursor.getColumnIndexOrThrow("x")));
+        f.setY(cursor.getString(cursor.getColumnIndexOrThrow("y")));
         f.setPlaceid(cursor.getString(cursor.getColumnIndexOrThrow("placeid")));
-
 
         cursor.close();
 

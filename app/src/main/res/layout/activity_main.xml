@@ -27,7 +27,9 @@
         android:text="@string/btn_buscar"
         android:id="@+id/searchMedicineButton"
         android:layout_alignBottom="@+id/medicineText"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff"
+        android:background="#43A047"/>
 
     <TextView
         android:layout_width="wrap_content"

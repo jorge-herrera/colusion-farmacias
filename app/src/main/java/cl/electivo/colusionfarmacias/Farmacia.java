@@ -9,8 +9,8 @@ public class Farmacia {
     private String nombre;
     private String direccion;
     private String telefono;
-    private long x;
-    private long y;
+    private String x;
+    private String y;
     private String placeid;
 
     public int getId() {
@@ -45,19 +45,19 @@ public class Farmacia {
         this.telefono = telefono;
     }
 
-    public long getX() {
+    public String getX() {
         return x;
     }
 
-    public void setX(long x) {
+    public void setX(String x) {
         this.x = x;
     }
 
-    public long getY() {
+    public String getY() {
         return y;
     }
 
-    public void setY(long y) {
+    public void setY(String y) {
         this.y = y;
     }
 

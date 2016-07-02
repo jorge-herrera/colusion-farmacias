@@ -1,5 +1,8 @@
 package cl.electivo.colusionfarmacias;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -14,6 +17,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#43A047")));
 
         final EditText medicineText = (EditText) findViewById(R.id.medicineText);
         final Button buttonBuscarMedicamento = (Button) findViewById(R.id.searchMedicineButton);

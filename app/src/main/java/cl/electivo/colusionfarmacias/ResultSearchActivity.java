@@ -3,7 +3,10 @@ package cl.electivo.colusionfarmacias;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,14 +27,25 @@ public class ResultSearchActivity extends AppCompatActivity {
     SQLiteDatabase db;
     SearchDBHelper sdbh;
     Cursor cursor;
+    String medicamento;
+
+    static final String STATE_MEDICAMENTO = "medicamento";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_search);
 
-        Intent intent = getIntent();
-        String medicamento = intent.getStringExtra("medicamento");
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#43A047")));
+
+        if (savedInstanceState != null) {
+            medicamento = savedInstanceState.getString(STATE_MEDICAMENTO);
+        }
+        else {
+            Intent intent = getIntent();
+            medicamento = intent.getStringExtra("medicamento");
+        }
 
         setTitle(medicamento);
 
@@ -43,8 +57,13 @@ public class ResultSearchActivity extends AppCompatActivity {
 
         cursor = sdbh.findFarmaciasByMedicamento(db, medicamento);
 
-        DBCursorAdapter adapter = new DBCursorAdapter(getApplicationContext(),cursor,0);
-        lista.setAdapter(adapter);
+        if (cursor.getCount() > 0) {
+            DBCursorAdapter adapter = new DBCursorAdapter(getApplicationContext(),cursor,0);
+            lista.setAdapter(adapter);
+        }
+        else {
+            titulo.setText("No se encontro el medicamento "+ medicamento);
+        }
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -56,6 +75,17 @@ public class ResultSearchActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString(STATE_MEDICAMENTO, medicamento);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        medicamento = savedInstanceState.getString(STATE_MEDICAMENTO);
     }
 
     class DBCursorAdapter extends android.widget.CursorAdapter{
